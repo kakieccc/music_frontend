@@ -48,7 +48,6 @@ import { defineComponent, reactive, getCurrentInstance } from "vue";
 import mixin from "@/mixins/mixin";
 import YinLoginLogo from "@/components/layouts/YinLoginLogo.vue";
 import { HttpManager } from "@/api";
-import { getBirth } from "@/utils";
 import { AREA, RouterName, NavName, SignUpRules } from "@/enums";
 
 export default defineComponent({
