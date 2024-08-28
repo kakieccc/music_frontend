@@ -81,14 +81,16 @@ const HttpManager = {
   // 下载音乐
   downloadMusic: (url) => get(url, { responseType: "blob" }),
 
-  //======================> 点赞api的优化 避免有些是重复的点赞！新增数据表了得
+  //======================> 点赞api的优化
 
   testAlreadySupport:({commentId,userId}) => post(`userSupport/test`, {commentId,userId}),
 
   deleteUserSupport:({commentId,userId}) => post(`userSupport/delete`, {commentId,userId}),
 
   insertUserSupport:({commentId,userId}) => post(`userSupport/insert`, {commentId,userId}),
-
+  
+  //获取所有的海报
+  getBannerList: () => get("banner/getAllBanner")
 };
 
 
