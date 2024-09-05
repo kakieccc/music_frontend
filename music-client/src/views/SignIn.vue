@@ -14,7 +14,6 @@
       <el-form-item class="sign-btn">
         <el-button @click="handleSignUp">注册</el-button>
         <el-button type="primary" @click="handleLoginIn">登录</el-button>
-        <el-button @click="handleForgotPassword">忘记密码</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -75,20 +74,10 @@ export default defineComponent({
       routerManager(RouterName.SignUp, { path: RouterName.SignUp });
     }
 
-     function handleForgotPassword() {
-      routerManager(RouterName.ForgotPassword, { path: RouterName.ForgotPassword });
-    }
-    function handleEmail() {
-      routerManager(RouterName.loginByemail, { path: RouterName.loginByemail });
-    }
-
-
     return {
       registerForm,
       SignInRules,
       handleLoginIn,
-      handleForgotPassword,
-      handleEmail,
       handleSignUp,
     };
   },

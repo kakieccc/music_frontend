@@ -202,6 +202,9 @@ export default defineComponent({
     },
     // 上一首
     prev() {
+      // 切换到新的歌曲时暂停播放
+      this.$store.commit("setIsPlay", false);
+
       if (this.playState === Icon.LUANXU) {
         let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
         playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
@@ -216,9 +219,15 @@ export default defineComponent({
           this.toPlay(this.currentPlayList[this.currentPlayIndex].url);
         }
       }
+
+      // 切换完歌曲后重新播放
+      this.$store.commit("setIsPlay", true);
     },
     // 下一首
     next() {
+      // 切换到新的歌曲时暂停播放
+      this.$store.commit("setIsPlay", false);
+
       if (this.playState === Icon.LUANXU) {
         let playIndex = Math.floor(Math.random() * this.currentPlayList.length);
         playIndex = playIndex === this.currentPlayIndex ? playIndex + 1 : playIndex;
@@ -233,21 +242,34 @@ export default defineComponent({
           this.toPlay(this.currentPlayList[0].url);
         }
       }
+
+      // 切换完歌曲后重新播放
+      this.$store.commit("setIsPlay", true);
     },
     // 选中播放
     toPlay(url) {
-      if (url && url !== this.songUrl) {
-        const song = this.currentPlayList[this.currentPlayIndex];
-        this.playMusic({
-          id: song.id,
-          url,
-          pic: song.pic,
-          index: this.currentPlayIndex,
-          name: song.name,
-          lyric: song.lyric,
-          currentSongList: this.currentPlayList,
-        });
-      }
+    if (url && url !== this.songUrl) {
+    const song = this.currentPlayList[this.currentPlayIndex];
+    
+    // 先暂停当前播放
+    this.$store.commit("setIsPlay", false);
+
+    // 重新设定歌曲信息
+    this.playMusic({
+      id: song.id,
+      url,
+      pic: song.pic,
+      index: this.currentPlayIndex,
+      name: song.name,
+      lyric: song.lyric,
+      currentSongList: this.currentPlayList,
+    });
+
+    // 保证歌曲准备好后重新播放
+    setTimeout(() => {
+      this.$store.commit("setIsPlay", true);
+    }, 50); // 延迟一点时间，确保数据更新完成
+  }
     },
     goPlayerPage() {
       this.routerManager(RouterName.Lyric, {path: `${RouterName.Lyric}/${this.songId}`});

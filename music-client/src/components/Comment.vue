@@ -17,7 +17,7 @@
           <li class="content">{{ item.content }}</li>
         </ul>
       </div>
-      <!--这特么是直接拿到了评论的id-->
+      <!--直接拿到评论的id-->
       <div ref="up" class="comment-ctr" @click="setSupport(item.id, item.up, userId)">
         <div><yin-icon :icon="iconList.Support"></yin-icon> {{ item.up }}</div>
         <el-icon v-if="item.userId === userId" @click="deleteComment(item.id, index)"><delete /></el-icon>

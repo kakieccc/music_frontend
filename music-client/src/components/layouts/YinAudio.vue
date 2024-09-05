@@ -13,7 +13,6 @@
 import { defineComponent, ref, getCurrentInstance, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { HttpManager } from "@/api";
-import { onMounted } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -59,14 +58,19 @@ export default defineComponent({
     }
     // 获取歌曲链接后准备播放
     function canplay() {
-      //  记录音乐时长
       proxy.$store.commit("setDuration", divRef.value.duration);
-      //  开始播放
+
+      // 如果歌曲已经准备好，并且当前播放状态是播放的，就执行播放
+      if (proxy.$store.getters.isPlay) {
+        divRef.value.play();
+      }
+
+      // 解除静音，保证新歌曲播放
       if (muted.value) {
         divRef.value.muted = false;
         muted.value = false;
       }
-      // divRef.value.play();
+
       proxy.$store.commit("setIsPlay", true);
     }
     // 音乐播放时记录音乐的播放位置
